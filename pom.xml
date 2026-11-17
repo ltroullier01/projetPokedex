@@ -11,6 +11,7 @@
         <exec.args>-Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8</exec.args>
         <maven.compiler.release>26</maven.compiler.release>
         <exec.mainClass>lael.ia.projetpokedex.ProjetPokedex</exec.mainClass>
+        <javafx.version>21.0.5</javafx.version>
     </properties>
     <dependencies>
         <dependency>
@@ -18,5 +19,36 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.46.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <!-- Chargement des interfaces FXML -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
     </dependencies>
+    
+    <build>
+        <plugins>
+            <!-- Plugin indispensable pour lancer JavaFX correctement sous Maven -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>lael.ia.projetpokedex.ProjetPokedex</mainClass>
+                    <options>
+                        <option>-Dfile.encoding=UTF-8</option>
+                        <option>-Dsun.stdout.encoding=UTF-8</option>
+                        <option>-Dsun.stderr.encoding=UTF-8</option>
+                    </options>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

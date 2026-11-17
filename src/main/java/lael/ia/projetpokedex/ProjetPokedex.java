@@ -9,30 +9,36 @@ import lael.ia.projetpokedex.database.DatabaseManager;
 import lael.ia.projetpokedex.dao.TypeDAO;
 import lael.ia.projetpokedex.model.Pokemon;
 import lael.ia.projetpokedex.model.TypePokemon;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import lael.ia.projetpokedex.database.DatabaseManager;
 
 /**
  *
  * @author laelt
  */
-public class ProjetPokedex {
+public class ProjetPokedex extends Application {
 
-    public static void main(String[] args) {
-        // 1. Initialise la base SQLite (crée pokedex.db, les tables et les 18 types si absents)
-        // Toujours exécuter cette étape AVANT d'ouvrir l'interface graphique
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        // 1. Initialise SQLite avant d'afficher l'interface
         DatabaseManager.initialiserBase();
 
-        TypeDAO typeDAO = new TypeDAO();
-        PokemonDAO pokemonDAO = new PokemonDAO();
+        // 2. Charge le fichier visuel FXML depuis src/main/resources/
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/pokedex.fxml"));
+        Parent root = loader.load();
 
-// Récupération des types depuis SQLite
-        TypePokemon plante = typeDAO.trouverParNom("Plante");
-        TypePokemon poison = typeDAO.trouverParNom("Poison");
+        // 3. Configure et affiche la fenêtre
+        Scene scene = new Scene(root, 900, 600);
+        primaryStage.setTitle("Mon Pokédex SQLite");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
-// Ajout d'un Pokémon double-type
-        Pokemon bulbizarre = new Pokemon(2, "Bulbizarre", "Bulbi", plante, poison, 5, 45, 49, 49, 45);
-        pokemonDAO.ajouter(bulbizarre);
-
-// Affichage de tous les Pokémon
-        pokemonDAO.listerTous().forEach(System.out::println);
+    public static void main(String[] args) {
+        launch(args);
     }
 }
